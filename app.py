@@ -232,37 +232,52 @@ def main():
         st.subheader("🔄 Update Existing Order Status")
         
         try:
-            all_records = sheet.get_all_records()
+            all_rows = sheet.get_all_values()
         except Exception:
-            all_records = []
+            all_rows = []
 
-        if not all_records:
+        if len(all_rows) <= 1:
             st.info("No orders found in Google Sheet yet.")
         else:
-            order_ids = [str(row.get("Order ID")) for row in all_records if row.get("Order ID")]
+            header = all_rows[0]
+            data_rows = all_rows[1:]
+            
+            order_ids = [row[0] for row in data_rows if len(row) > 0 and row[0]]
             
             if not order_ids:
                 st.warning("No Order IDs available.")
             else:
                 selected_order_id = st.selectbox("Select Order ID to Update", options=order_ids)
                 
-                selected_row_data = None
+                selected_row_values = None
                 row_index = -1
-                for idx, row in enumerate(all_records):
-                    if str(row.get("Order ID")) == selected_order_id:
-                        selected_row_data = row
-                        row_index = idx + 2
+                for idx, row in enumerate(data_rows):
+                    if len(row) > 0 and row[0] == selected_order_id:
+                        selected_row_values = row
+                        row_index = idx + 2  # Excel row index (1-based + header)
                         break
                 
-                if selected_row_data:
-                    cust_name = selected_row_data.get('Customer Name')
-                    cust_phone = selected_row_data.get('Phone / Contact')
-                    job_t = selected_row_data.get('Job Type')
-                    bal_due = selected_row_data.get('Balance Due', 0)
+                if selected_row_values:
+                    # Safely extract values based on column indices from sheet
+                    cust_name = selected_row_values[2] if len(selected_row_values) > 2 else ""
+                    job_t = selected_row_values[4] if len(selected_row_values) > 4 else ""
                     
-                    st.info(f"**Customer:** {cust_name} | **Job:** {job_t} | **Balance Due:** ₹{bal_due}")
+                    try:
+                        tot_amt = float(selected_row_values[7]) if len(selected_row_values) > 7 and selected_row_values[7] else 0.0
+                    except ValueError:
+                        tot_amt = 0.0
+                        
+                    try:
+                        adv_paid = float(selected_row_values[8]) if len(selected_row_values) > 8 and selected_row_values[8] else 0.0
+                    except ValueError:
+                        adv_paid = 0.0
+                        
+                    bal_due = max(0.0, tot_amt - adv_paid)
                     
-                    current_status = selected_row_data.get('Order Status', 'New Order')
+                    st.info(f"**Customer:** {cust_name} | **Job:** {job_t} | **Balance Due:** ₹{bal_due:.2f}")
+                    
+                    current_status = selected_row_values[11] if len(selected_row_values) > 11 and selected_row_values[11] else "New Order"
+                    current_remarks = selected_row_values[12] if len(selected_row_values) > 12 else ""
                     
                     status_options = [
                         "New Order", "Designing", "Customer Review", 
@@ -277,7 +292,7 @@ def main():
 
                     with st.form("update_form"):
                         new_status = st.selectbox("Update Order Status", options=status_options, index=default_idx)
-                        updated_remarks = st.text_area("Update Remarks / Notes", value=str(selected_row_data.get('Follow-up Remarks / Production Notes', '')))
+                        updated_remarks = st.text_area("Update Remarks / Notes", value=str(current_remarks))
                         
                         update_submitted = st.form_submit_button("🔄 Update Status in Sheet")
                         
@@ -289,7 +304,7 @@ def main():
                                 st.session_state.update_success = True
                                 st.session_state.updated_order_id = selected_order_id
                                 st.session_state.cust_name = cust_name
-                                st.session_state.cust_phone = cust_phone
+                                st.session_state.cust_phone = selected_row_values[3] if len(selected_row_values) > 3 else ""
                                 st.session_state.new_status = new_status
                                 st.session_state.bal_due = bal_due
                                 st.rerun()
@@ -300,14 +315,13 @@ def main():
         if st.session_state.get("update_success"):
             st.success(f"Order {st.session_state.updated_order_id} status updated to '{st.session_state.new_status}' successfully!")
             
-            # Updated WhatsApp Message Template (Single line for thank you and Ambur)
             wa_phone = format_phone_number(st.session_state.cust_phone)
             wa_message = (
                 f"Hello {st.session_state.cust_name},\n\n"
                 f"Your order (ID: {st.session_state.updated_order_id}) with MM PRINTS status has been updated to: {st.session_state.new_status}.\n"
             )
             if float(st.session_state.bal_due or 0) > 0:
-                wa_message += f"Balance Due: ₹{st.session_state.bal_due}\n\n"
+                wa_message += f"Balance Due: ₹{st.session_state.bal_due:.2f}\n\n"
             wa_message += "Thank you for choosing MM Prints - Ambur! 🖨️"
             
             encoded_msg = urllib.parse.quote(wa_message)

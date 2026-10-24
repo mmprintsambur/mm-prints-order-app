@@ -11,7 +11,7 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Custom CSS with forceful dark blue borders for both top header and bottom footer
+# Custom CSS for Solid Dark Blue Header & Footer Boxes
 st.markdown("""
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#1e3a8a">
@@ -23,32 +23,20 @@ st.markdown("""
     .main {
         background-color: #f8fafc;
     }
-    .corporate-header {
-        background-color: #ffffff !important;
-        padding: 15px !important;
-        border-radius: 8px !important;
-        text-align: center !important;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.04) !important;
-        margin-bottom: 25px !important;
-        border-top: 6px solid #1e3a8a !important;
-        border-left: 1px solid #e2e8f0 !important;
-        border-right: 1px solid #e2e8f0 !important;
-        border-bottom: 1px solid #e2e8f0 !important;
-    }
     .footer-box {
-        background-color: #ffffff !important;
-        padding: 15px !important;
-        border-radius: 8px !important;
-        border-bottom: 6px solid #1e3a8a !important;
-        border-left: 1px solid #e2e8f0 !important;
-        border-right: 1px solid #e2e8f0 !important;
-        border-top: 1px solid #e2e8f0 !important;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.04) !important;
-        margin-top: 30px !important;
-        font-size: 11px !important;
-        color: #475569 !important;
-        text-align: center !important;
-        line-height: 1.5 !important;
+        background-color: #ffffff;
+        padding: 15px;
+        border-radius: 8px;
+        border-bottom: 6px solid #1e3a8a;
+        border-left: 1px solid #e2e8f0;
+        border-right: 1px solid #e2e8f0;
+        border-top: 1px solid #e2e8f0;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        margin-top: 30px;
+        font-size: 11px;
+        color: #475569;
+        text-align: center;
+        line-height: 1.5;
     }
     .stButton>button {
         border-radius: 6px;
@@ -108,7 +96,7 @@ def format_phone_number(phone):
     return cleaned
 
 def main():
-    # Header Section with Inline Guaranteed Dark Blue Top Border Box
+    # Header Section with Guaranteed Solid Dark Blue Top Border Box
     st.markdown("""
         <div style="background-color: #ffffff; padding: 15px; border-radius: 8px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.04); margin-bottom: 25px; border-top: 6px solid #1e3a8a; border-left: 1px solid #e2e8f0; border-right: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0;">
     """, unsafe_allow_html=True)

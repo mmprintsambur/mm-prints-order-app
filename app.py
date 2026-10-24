@@ -9,7 +9,7 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Custom CSS for Corporate UI & Logo Framing
+# Custom CSS for Professional Corporate Branding & Pure CSS Logo Design
 st.markdown("""
     <style>
     .main {
@@ -17,7 +17,7 @@ st.markdown("""
     }
     .corporate-header {
         background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
-        padding: 30px 20px;
+        padding: 35px 20px;
         border-radius: 15px;
         color: white;
         text-align: center;
@@ -25,15 +25,34 @@ st.markdown("""
         margin-bottom: 25px;
         border-bottom: 4px solid #ffd700;
     }
-    .logo-img {
+    .logo-badge {
+        background: radial-gradient(circle, #ffffff 60%, #f0f0f0 100%);
         width: 120px;
         height: 120px;
         border-radius: 50%;
-        object-fit: cover;
+        margin: 0 auto 15px auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 20px rgba(255, 215, 0, 0.4);
         border: 4px solid #ffd700;
-        margin-bottom: 12px;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.4);
-        background-color: white;
+    }
+    .logo-mm {
+        font-size: 28px;
+        font-weight: 900;
+        background: linear-gradient(135deg, #f5af19 0%, #f12711 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        line-height: 1;
+        letter-spacing: 1px;
+    }
+    .logo-prints {
+        font-size: 14px;
+        font-weight: 800;
+        color: #1e3c72;
+        letter-spacing: 2px;
+        margin-top: 2px;
     }
     .corporate-header h1 {
         color: #ffffff !important;
@@ -112,10 +131,13 @@ def generate_order_id(sheet):
         return f"{prefix}001"
 
 def main():
-    # Corporate Header with Official Logo Image & Tagline
+    # Corporate Header with Pure CSS Emblem Logo & Tagline
     st.markdown("""
         <div class="corporate-header">
-            <img src="https://i.ibb.co/1G0wB7L4/mm-prints-logo.jpg" class="logo-img" alt="MM Prints Logo">
+            <div class="logo-badge">
+                <div class="logo-mm">MM</div>
+                <div class="logo-prints">PRINTS</div>
+            </div>
             <h1>MM PRINTS</h1>
             <div class="tagline">"YOUR IMAGINATION — OUR CREATION"</div>
         </div>

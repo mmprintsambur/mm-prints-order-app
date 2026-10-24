@@ -1,16 +1,15 @@
 {
   "name": "MM Prints",
   "short_name": "MM Prints",
-  "icons": [
-    {
-      "src": "https://raw.githubusercontent.com/mmprintsambur/mm-prints-order-app/main/logo.png",
-      "sizes": "192x192 512x512",
-      "type": "image/png",
-      "purpose": "any maskable"
-    }
-  ],
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#f8fafc",
-  "theme_color": "#1e3a8a"
+  "background_color": "#1e3a8a",
+  "theme_color": "#1e3a8a",
+  "icons": [
+    {
+      "src": "logo.png",
+      "sizes": "192x192 512x512",
+      "type": "image/png"
+    }
+  ]
 }

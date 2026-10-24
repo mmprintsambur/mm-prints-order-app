@@ -11,7 +11,7 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Custom CSS matching both top header box and bottom footer box perfectly
+# Custom CSS for Corporate Header and Footer Boxes
 st.markdown("""
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#1e3a8a">
@@ -22,18 +22,6 @@ st.markdown("""
     }
     .main {
         background-color: #f8fafc;
-    }
-    .corporate-header-box {
-        background-color: #ffffff;
-        padding: 15px;
-        border-radius: 8px;
-        text-align: center;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-        margin-bottom: 25px;
-        border-top: 6px solid #1e3a8a !important;
-        border-left: 1px solid #e2e8f0;
-        border-right: 1px solid #e2e8f0;
-        border-bottom: 1px solid #e2e8f0;
     }
     .footer-box {
         background-color: #ffffff;
@@ -108,8 +96,10 @@ def format_phone_number(phone):
     return cleaned
 
 def main():
-    # Top Header Box with Solid Dark Blue Top Border
-    st.markdown('<div class="corporate-header-box">', unsafe_allow_html=True)
+    # Top Header Box with Forced Inline Solid Dark Blue Top Border
+    st.markdown("""
+        <div style="background-color: #ffffff; padding: 15px; border-radius: 8px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.04); margin-bottom: 25px; border-top: 6px solid #1e3a8a !important; border-left: 1px solid #e2e8f0; border-right: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0;">
+    """, unsafe_allow_html=True)
     
     col_l, col_c, col_r = st.columns([1, 2, 1])
     with col_c:

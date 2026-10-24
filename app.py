@@ -4,8 +4,10 @@ import streamlit as st
 import gspread
 from google.oauth2.service_account import Credentials
 
+# Set page title and official MM Prints logo as favicon/icon
 st.set_page_config(
     page_title="MM Prints - Management Portal",
+    page_icon="logo.png",
     layout="centered",
     initial_sidebar_state="expanded"
 )
@@ -254,11 +256,10 @@ def main():
                 for idx, row in enumerate(data_rows):
                     if len(row) > 0 and row[0] == selected_order_id:
                         selected_row_values = row
-                        row_index = idx + 2  # Excel row index (1-based + header)
+                        row_index = idx + 2
                         break
                 
                 if selected_row_values:
-                    # Safely extract values based on column indices from sheet
                     cust_name = selected_row_values[2] if len(selected_row_values) > 2 else ""
                     job_t = selected_row_values[4] if len(selected_row_values) > 4 else ""
                     
@@ -338,6 +339,7 @@ def main():
             """, unsafe_allow_html=True)
             
             if st.button("❌ Close / Clear"):
+                st.session_state.update_name = False
                 st.session_state.update_success = False
                 st.rerun()
 

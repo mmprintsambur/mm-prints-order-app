@@ -3,14 +3,13 @@ import streamlit as st
 import gspread
 from google.oauth2.service_account import Credentials
 
-# Page Configuration (Printer icon removed)
 st.set_page_config(
     page_title="MM Prints - Management Portal",
     layout="centered",
     initial_sidebar_state="expanded"
 )
 
-# Custom CSS for Professional Corporate Branding
+# Custom CSS for Corporate UI & Logo Framing
 st.markdown("""
     <style>
     .main {
@@ -26,26 +25,15 @@ st.markdown("""
         margin-bottom: 25px;
         border-bottom: 4px solid #ffd700;
     }
-    .logo-container {
-        background-color: #ffffff;
-        padding: 12px;
+    .logo-img {
+        width: 120px;
+        height: 120px;
         border-radius: 50%;
-        width: 110px;
-        height: 110px;
-        margin: 0 auto 15px auto;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-        border: 3px solid #ffd700;
-    }
-    .logo-text {
-        font-size: 24px;
-        font-weight: 900;
-        background: linear-gradient(135deg, #d4af37 0%, #ff8c00 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        line-height: 1.1;
+        object-fit: cover;
+        border: 4px solid #ffd700;
+        margin-bottom: 12px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+        background-color: white;
     }
     .corporate-header h1 {
         color: #ffffff !important;
@@ -124,12 +112,10 @@ def generate_order_id(sheet):
         return f"{prefix}001"
 
 def main():
-    # Corporate Header with Styled Logo & Tagline
+    # Corporate Header with Official Logo Image & Tagline
     st.markdown("""
         <div class="corporate-header">
-            <div class="logo-container">
-                <div class="logo-text">MM<br>PRINTS</div>
-            </div>
+            <img src="https://i.ibb.co/1G0wB7L4/mm-prints-logo.jpg" class="logo-img" alt="MM Prints Logo">
             <h1>MM PRINTS</h1>
             <div class="tagline">"YOUR IMAGINATION — OUR CREATION"</div>
         </div>
@@ -308,11 +294,11 @@ def main():
                             except Exception as update_err:
                                 st.error(f"Failed to update: {update_err}")
 
-    # Corporate Footer with Address & GST Details at the Bottom
+    # Corporate Footer with Address, GST & Phone Numbers at the Bottom
     st.markdown("""
         <div class="footer-box">
             📍 <b>MM PRINTS</b> | Ground Floor, No.80/1A, S.K. Road, Krishnapuram, Ambur, Tirupathur, Tamil Nadu - 635802<br>
-            🔖 <b>GSTIN:</b> 33BFXPL1178K1ZV | 📞 Commercial Printing & Signage Solutions<br>
+            🔖 <b>GSTIN:</b> 33BFXPL1178K1ZV | 📞 <b>Contact:</b> +91 9933360360 | +91 7010660360 | +91 9025660360<br>
             <hr style="margin: 10px 0; border-top: 1px solid #dee2e6;">
             Internal Management Portal &copy; 2026 | Prop: Lawrance Madhankumar
         </div>

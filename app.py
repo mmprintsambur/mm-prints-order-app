@@ -12,7 +12,6 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Function to convert local image to Base64 so it never breaks in HTML
 def get_base64_image(image_path):
     try:
         with open(image_path, "rb") as img_file:
@@ -22,13 +21,13 @@ def get_base64_image(image_path):
 
 logo_base64 = get_base64_image("logo.png")
 
-# Custom CSS matching both top header and bottom footer with identical dark blue borders
+# Bulletproof CSS neutralizing Streamlit top padding and aligning borders
 st.markdown("""
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#1e3a8a">
     <style>
     .block-container {
-        padding-top: 1rem !important;
+        padding-top: 0.5rem !important;
         padding-bottom: 2rem !important;
     }
     .main {
@@ -40,6 +39,7 @@ st.markdown("""
         border-radius: 8px;
         text-align: center;
         box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        margin-top: 0px;
         margin-bottom: 25px;
         border-top: 10px solid #1e3a8a !important;
         border-left: 1px solid #e2e8f0;
@@ -119,7 +119,6 @@ def format_phone_number(phone):
     return cleaned
 
 def main():
-    # Top Header Box with Base64 Logo and Solid Dark Blue Top Border
     if logo_base64:
         st.markdown(f"""
             <div class="custom-header-box">
@@ -133,7 +132,6 @@ def main():
             </div>
         """, unsafe_allow_html=True)
 
-    # Connect to Google Sheet
     try:
         gc = get_gsheet_client()
         spreadsheet_id = st.secrets["SPREADSHEET_ID"]
@@ -145,7 +143,6 @@ def main():
     if "page" not in st.session_state:
         st.session_state.page = "home"
 
-    # ================= HOME PAGE =================
     if st.session_state.page == "home":
         st.write("") 
         col1, col2 = st.columns(2, gap="medium")
@@ -158,7 +155,6 @@ def main():
                 st.session_state.page = "update_order"
                 st.rerun()
 
-    # ================= NEW ORDER ENTRY PAGE =================
     elif st.session_state.page == "new_order":
         if st.button("⬅️ Back to Home Menu"):
             st.session_state.page = "home"
@@ -243,7 +239,6 @@ def main():
                     except Exception as err:
                         st.error(f"Failed to save order: {err}")
 
-    # ================= UPDATE ORDER STATUS PAGE =================
     elif st.session_state.page == "update_order":
         if st.button("⬅️ Back to Home Menu"):
             st.session_state.page = "home"
@@ -331,14 +326,13 @@ def main():
                             except Exception as update_err:
                                 st.error(f"Failed to update: {update_err}")
 
-        # Show WhatsApp Button if status was just successfully updated
         if st.session_state.get("update_success"):
             st.success(f"Order {st.session_state.updated_order_id} status updated to '{st.session_state.new_status}' successfully!")
             
             wa_phone = format_phone_number(st.session_state.cust_phone)
             wa_message = (
                 f"Hello {st.session_state.cust_name},\n\n"
-                f"Your order (ID: {st.session_state.updated_order_id}) with MM PRINTS status has been updated to: {st.session_state.new_status}.\n"
+                f"Your order (ID: {st.session_state.updated_order_id}) with MM PRINTS status has been updated to: {st.session_state.get('new_status')}.\n"
             )
             if float(st.session_state.bal_due or 0) > 0:
                 wa_message += f"Balance Due: ₹{st.session_state.bal_due:.2f}\n\n"
@@ -361,7 +355,6 @@ def main():
                 st.session_state.update_success = False
                 st.rerun()
 
-    # Footer with Solid Dark Blue Bottom Border
     st.markdown("""
         <div class="footer-box">
             📍 <b>MM PRINTS</b> | Ground Floor, No.80/1A, S.K. Road, Krishnapuram, Ambur, Tirupathur, Tamil Nadu - 635802<br>

@@ -11,7 +11,7 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Custom CSS with PWA manifest link and Full Page Box Border Effect
+# Custom CSS with PWA manifest link and Solid Dark Border Matching Header & Footer
 st.markdown("""
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#1e3a8a">
@@ -24,11 +24,11 @@ st.markdown("""
         background-color: #f8fafc;
     }
     .corporate-header {
-        background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+        background-color: #f8fafc;
         padding: 15px;
-        border-radius: 10px;
+        border-radius: 8px;
         text-align: center;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        box-shadow: 0 2px 8px rgba(0,0,0,0.02);
         margin-bottom: 20px;
         border-top: 4px solid #1e3a8a;
     }
@@ -128,7 +128,7 @@ def main():
 
     # ================= HOME PAGE =================
     if st.session_state.page == "home":
-        st.write("") # Spacer
+        st.write("") 
         col1, col2 = st.columns(2, gap="medium")
         with col1:
             if st.button("➕ New Order Entry", use_container_width=True):

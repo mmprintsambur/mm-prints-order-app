@@ -47,7 +47,7 @@ st.markdown("""
     .stButton>button {
         border-radius: 6px;
         font-weight: 600;
-        height: 3em;
+        height: 3.2em;
         width: 100%;
         background-color: #1e3a8a;
         color: white;
@@ -128,8 +128,7 @@ def main():
 
     # ================= HOME PAGE =================
     if st.session_state.page == "home":
-        st.markdown("<h4 style='text-align: center; color: #1e3a8a; margin-bottom: 15px;'>Select Operation Mode</h4>", unsafe_allow_html=True)
-        
+        st.write("") # Spacer
         col1, col2 = st.columns(2, gap="medium")
         with col1:
             if st.button("➕ New Order Entry", use_container_width=True):

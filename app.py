@@ -96,9 +96,9 @@ def format_phone_number(phone):
     return cleaned
 
 def main():
-    # Header Section with Guaranteed Solid Dark Blue Top Border Box
+    # Header Section with Guaranteed Solid Dark Blue Top Border Box using Inline Styles
     st.markdown("""
-        <div style="background-color: #ffffff; padding: 15px; border-radius: 8px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.04); margin-bottom: 25px; border-top: 6px solid #1e3a8a; border-left: 1px solid #e2e8f0; border-right: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0;">
+        <div style="background-color: #ffffff; padding: 15px; border-radius: 8px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.04); margin-bottom: 25px; border-top: 6px solid #1e3a8a !important; border-left: 1px solid #e2e8f0; border-right: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0;">
     """, unsafe_allow_html=True)
     
     col_l, col_c, col_r = st.columns([1, 2, 1])

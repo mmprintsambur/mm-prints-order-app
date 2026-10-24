@@ -9,10 +9,9 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Custom CSS for Unified Dark-Blue Theme Header & Footer matching the Logo
+# Custom CSS for Full Page Box Border Effect (Top border for header, Bottom border for footer)
 st.markdown("""
     <style>
-    /* Reduce top padding & whitespace */
     .block-container {
         padding-top: 1.2rem !important;
         padding-bottom: 2rem !important;
@@ -20,7 +19,7 @@ st.markdown("""
     .main {
         background-color: #f8fafc;
     }
-    /* Unified Slim Corporate Header with Dark Blue Border */
+    /* Header with Top Blue Border */
     .corporate-header {
         background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
         padding: 15px;
@@ -28,16 +27,17 @@ st.markdown("""
         text-align: center;
         box-shadow: 0 2px 8px rgba(0,0,0,0.04);
         margin-bottom: 20px;
-        border-bottom: 3px solid #1e3a8a;
-        border-top: 1px solid #e2e8f0;
+        border-top: 4px solid #1e3a8a;
+        border-bottom: none;
     }
-    /* Unified Footer matching Header Theme */
+    /* Footer with Bottom Blue Border */
     .footer-box {
         background-color: #f8fafc;
         padding: 15px;
         border-radius: 8px;
-        border-top: 3px solid #1e3a8a;
-        box-shadow: 0 -2px 8px rgba(0,0,0,0.02);
+        border-bottom: 4px solid #1e3a8a;
+        border-top: none;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.02);
         margin-top: 30px;
         font-size: 11px;
         color: #475569;
@@ -96,7 +96,7 @@ def generate_order_id(sheet):
         return f"{prefix}001"
 
 def main():
-    # Compact Header with Logo Only (No extra text below logo)
+    # Header Section
     st.markdown('<div class="corporate-header">', unsafe_allow_html=True)
     
     col_l, col_c, col_r = st.columns([1, 1.2, 1])
@@ -240,56 +240,3 @@ def main():
             
             if not order_ids:
                 st.warning("No Order IDs available.")
-            else:
-                selected_order_id = st.selectbox("Select Order ID to Update", options=order_ids)
-                
-                selected_row_data = None
-                row_index = -1
-                for idx, row in enumerate(all_records):
-                    if str(row.get("Order ID")) == selected_order_id:
-                        selected_row_data = row
-                        row_index = idx + 2
-                        break
-                
-                if selected_row_data:
-                    st.info(f"**Customer Name:** {selected_row_data.get('Customer Name')} | **Job Type:** {selected_row_data.get('Job Type')}")
-                    
-                    current_status = selected_row_data.get('Order Status', 'New Order')
-                    
-                    status_options = [
-                        "New Order", "Designing", "Customer Review", 
-                        "Design Modification", "Customer Approved", "Printing", 
-                        "Ready for Delivery", "Outsourced", "Delivered", "Others"
-                    ]
-                    
-                    try:
-                        default_idx = status_options.index(current_status)
-                    except ValueError:
-                        default_idx = 0
-
-                    with st.form("update_form"):
-                        new_status = st.selectbox("Update Order Status", options=status_options, index=default_idx)
-                        updated_remarks = st.text_area("Update Remarks / Notes", value=str(selected_row_data.get('Follow-up Remarks / Production Notes', '')))
-                        
-                        update_submitted = st.form_submit_button("🔄 Update Status in Sheet")
-                        
-                        if update_submitted:
-                            try:
-                                sheet.update_cell(row_index, 12, new_status)
-                                sheet.update_cell(row_index, 13, updated_remarks)
-                                st.success(f"Order {selected_order_id} status updated to '{new_status}' successfully!")
-                            except Exception as update_err:
-                                st.error(f"Failed to update: {update_err}")
-
-    # Unified Matching Theme Footer
-    st.markdown("""
-        <div class="footer-box">
-            📍 <b>MM PRINTS</b> | Ground Floor, No.80/1A, S.K. Road, Krishnapuram, Ambur, Tirupathur, Tamil Nadu - 635802<br>
-            🔖 <b>GSTIN:</b> 33BFXPL1178K1ZV | 📞 <b>Contact:</b> +91 9933360360 | +91 7010660360 | +91 9025660360<br>
-            <hr style="margin: 8px 0; border-top: 1px solid #cbd5e1;">
-            Internal Management Portal &copy; 2026 | Prop: Lawrance Madhankumar
-        </div>
-    """, unsafe_allow_html=True)
-
-if __name__ == "__main__":
-    main()

@@ -9,48 +9,34 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Custom CSS for Minimal Top Space, Slim Header & Mild Light Theme matching Logo
+# Custom CSS for Unified Dark-Blue Theme Header & Footer matching the Logo
 st.markdown("""
     <style>
     /* Reduce top padding & whitespace */
     .block-container {
-        padding-top: 1.5rem !important;
+        padding-top: 1.2rem !important;
         padding-bottom: 2rem !important;
     }
     .main {
-        background-color: #fcfcfd;
+        background-color: #f8fafc;
     }
-    /* Slim and elegant light corporate header */
+    /* Unified Slim Corporate Header with Dark Blue Border */
     .corporate-header {
-        background: linear-gradient(135deg, #f0f4f8 0%, #e2e8f0 100%);
-        padding: 15px 15px;
+        background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+        padding: 15px;
         border-radius: 10px;
-        color: #1e293b;
         text-align: center;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+        box-shadow: 0 2px 8px rgba(0,0,0,0.04);
         margin-bottom: 20px;
-        border-bottom: 3px solid #f59e0b;
-        border-top: 1px solid #cbd5e1;
+        border-bottom: 3px solid #1e3a8a;
+        border-top: 1px solid #e2e8f0;
     }
-    .corporate-header h1 {
-        color: #0f172a !important;
-        font-size: 24px;
-        margin: 5px 0 2px 0;
-        font-weight: 700;
-        letter-spacing: 0.5px;
-    }
-    .tagline {
-        color: #d97706;
-        font-size: 12px;
-        font-weight: 600;
-        font-style: italic;
-        letter-spacing: 0.5px;
-    }
+    /* Unified Footer matching Header Theme */
     .footer-box {
         background-color: #f8fafc;
         padding: 15px;
         border-radius: 8px;
-        border-top: 3px solid #0284c7;
+        border-top: 3px solid #1e3a8a;
         box-shadow: 0 -2px 8px rgba(0,0,0,0.02);
         margin-top: 30px;
         font-size: 11px;
@@ -63,13 +49,13 @@ st.markdown("""
         font-weight: 600;
         height: 3em;
         width: 100%;
-        background-color: #0f172a;
+        background-color: #1e3a8a;
         color: white;
         border: none;
     }
     .stButton>button:hover {
-        background-color: #1e293b;
-        color: #f59e0b;
+        background-color: #1d4ed8;
+        color: #ffffff;
     }
     </style>
 """, unsafe_allow_html=True)
@@ -110,7 +96,7 @@ def generate_order_id(sheet):
         return f"{prefix}001"
 
 def main():
-    # Compact Slim Corporate Header with Logo & Tagline
+    # Compact Header with Logo Only (No extra text below logo)
     st.markdown('<div class="corporate-header">', unsafe_allow_html=True)
     
     col_l, col_c, col_r = st.columns([1, 1.2, 1])
@@ -118,13 +104,9 @@ def main():
         try:
             st.image("logo.png", use_column_width=True)
         except Exception:
-            st.markdown("<h3 style='color:#0f172a; text-align:center;'>MM PRINTS</h3>", unsafe_allow_html=True)
+            st.markdown("<h3 style='color:#1e3a8a; text-align:center;'>MM PRINTS</h3>", unsafe_allow_html=True)
 
-    st.markdown("""
-        <h1>MM PRINTS</h1>
-        <div class="tagline">"YOUR IMAGINATION — OUR CREATION"</div>
-        </div>
-    """, unsafe_allow_html=True)
+    st.markdown('</div>', unsafe_allow_html=True)
 
     # Connect to Google Sheet
     try:
@@ -140,7 +122,7 @@ def main():
 
     # ================= HOME PAGE =================
     if st.session_state.page == "home":
-        st.markdown("<h4 style='text-align: center; color: #334155; margin-bottom: 15px;'>Select Operation Mode</h4>", unsafe_allow_html=True)
+        st.markdown("<h4 style='text-align: center; color: #1e3a8a; margin-bottom: 15px;'>Select Operation Mode</h4>", unsafe_allow_html=True)
         
         col1, col2 = st.columns(2, gap="medium")
         with col1:
@@ -299,7 +281,7 @@ def main():
                             except Exception as update_err:
                                 st.error(f"Failed to update: {update_err}")
 
-    # Elegant Minimal Footer
+    # Unified Matching Theme Footer
     st.markdown("""
         <div class="footer-box">
             📍 <b>MM PRINTS</b> | Ground Floor, No.80/1A, S.K. Road, Krishnapuram, Ambur, Tirupathur, Tamil Nadu - 635802<br>

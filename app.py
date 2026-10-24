@@ -1,3 +1,4 @@
+import base64
 from datetime import datetime
 import urllib.parse
 import streamlit as st
@@ -11,7 +12,17 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Custom CSS for Pure Solid Dark Blue Top and Bottom Bars
+# Function to convert local image to Base64 so it never breaks in HTML
+def get_base64_image(image_path):
+    try:
+        with open(image_path, "rb") as img_file:
+            return base64.b64encode(img_file.read()).decode()
+    except Exception:
+        return ""
+
+logo_base64 = get_base64_image("logo.png")
+
+# Custom CSS for Solid Dark Blue Header and Footer Boxes
 st.markdown("""
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#1e3a8a">
@@ -108,12 +119,19 @@ def format_phone_number(phone):
     return cleaned
 
 def main():
-    # Top Header Box with Pure Solid Dark Blue Top Border
-    st.markdown("""
-        <div class="custom-header-box">
-            <img src="logo.png" style="max-width: 60%; height: auto; display: block; margin: 0 auto;" />
-        </div>
-    """, unsafe_allow_html=True)
+    # Top Header Box with Base64 Logo and Solid Dark Blue Top Border
+    if logo_base64:
+        st.markdown(f"""
+            <div class="custom-header-box">
+                <img src="data:image/png;base64,{logo_base64}" style="max-width: 55%; height: auto; display: block; margin: 0 auto;" />
+            </div>
+        """, unsafe_allow_html=True)
+    else:
+        st.markdown("""
+            <div class="custom-header-box">
+                <h3 style='color:#1e3a8a; margin: 0;'>MM PRINTS</h3>
+            </div>
+        """, unsafe_allow_html=True)
 
     # Connect to Google Sheet
     try:

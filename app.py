@@ -22,7 +22,7 @@ def get_base64_image(image_path):
 
 logo_base64 = get_base64_image("logo.png")
 
-# Custom CSS for Solid Dark Blue Header and Footer Boxes
+# Custom CSS matching both top header and bottom footer with identical dark blue borders
 st.markdown("""
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#1e3a8a">
@@ -41,7 +41,7 @@ st.markdown("""
         text-align: center;
         box-shadow: 0 2px 8px rgba(0,0,0,0.04);
         margin-bottom: 25px;
-        border-top: 8px solid #1e3a8a !important;
+        border-top: 10px solid #1e3a8a !important;
         border-left: 1px solid #e2e8f0;
         border-right: 1px solid #e2e8f0;
         border-bottom: 1px solid #e2e8f0;
@@ -50,7 +50,7 @@ st.markdown("""
         background-color: #ffffff;
         padding: 15px;
         border-radius: 8px;
-        border-bottom: 8px solid #1e3a8a !important;
+        border-bottom: 10px solid #1e3a8a !important;
         border-left: 1px solid #e2e8f0;
         border-right: 1px solid #e2e8f0;
         border-top: 1px solid #e2e8f0;

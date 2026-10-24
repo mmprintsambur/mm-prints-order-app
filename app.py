@@ -11,7 +11,7 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Custom CSS with PWA manifest link and Solid Dark Border Matching Header & Footer
+# Custom CSS with exact matching dark blue borders for both top header and bottom footer
 st.markdown("""
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#1e3a8a">
@@ -24,20 +24,24 @@ st.markdown("""
         background-color: #f8fafc;
     }
     .corporate-header {
-        background-color: #f8fafc;
+        background-color: #ffffff;
         padding: 15px;
         border-radius: 8px;
         text-align: center;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+        box-shadow: 0 2px 8px rgba(0,0,0,0.04);
         margin-bottom: 20px;
-        border-top: 4px solid #1e3a8a;
+        border-top: 4px solid #1e3a8a !important;
+        border-left: 1px solid #e2e8f0;
+        border-right: 1px solid #e2e8f0;
     }
     .footer-box {
-        background-color: #f8fafc;
+        background-color: #ffffff;
         padding: 15px;
         border-radius: 8px;
-        border-bottom: 4px solid #1e3a8a;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+        border-bottom: 4px solid #1e3a8a !important;
+        border-left: 1px solid #e2e8f0;
+        border-right: 1px solid #e2e8f0;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.04);
         margin-top: 30px;
         font-size: 11px;
         color: #475569;

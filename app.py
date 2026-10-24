@@ -21,7 +21,7 @@ def get_base64_image(image_path):
 
 logo_base64 = get_base64_image("logo.png")
 
-# Bulletproof CSS with exact matching top and bottom solid bars
+# Final Bulletproof CSS Matching Header and Footer Boxes Perfectly
 st.markdown("""
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#1e3a8a">
@@ -39,13 +39,11 @@ st.markdown("""
         text-align: center;
         box-shadow: 0 2px 8px rgba(0,0,0,0.04);
         margin-bottom: 25px;
-        border: 1px solid #e2e8f0;
+        border-top: 10px solid #1e3a8a !important;
+        border-left: 1px solid #e2e8f0;
+        border-right: 1px solid #e2e8f0;
+        border-bottom: 1px solid #e2e8f0;
         overflow: hidden;
-    }
-    .header-top-bar {
-        background-color: #1e3a8a;
-        height: 10px;
-        width: 100%;
     }
     .header-content {
         padding: 15px;
@@ -123,11 +121,10 @@ def format_phone_number(phone):
     return cleaned
 
 def main():
-    # Top Header Box using absolute HTML layout to guarantee top blue bar
+    # Top Header Box with Guaranteed Top Blue Border
     if logo_base64:
         st.markdown(f"""
             <div class="custom-header-box">
-                <div class="header-top-bar"></div>
                 <div class="header-content">
                     <img src="data:image/png;base64,{logo_base64}" style="max-width: 55%; height: auto; display: block; margin: 0 auto;" />
                 </div>
@@ -136,7 +133,6 @@ def main():
     else:
         st.markdown("""
             <div class="custom-header-box">
-                <div class="header-top-bar"></div>
                 <div class="header-content">
                     <h3 style='color:#1e3a8a; margin: 0;'>MM PRINTS</h3>
                 </div>

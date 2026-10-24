@@ -9,7 +9,7 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Custom CSS for Full Page Box Border Effect (Top border for header, Bottom border for footer)
+# Custom CSS for Full Page Box Border Effect
 st.markdown("""
     <style>
     .block-container {
@@ -28,7 +28,6 @@ st.markdown("""
         box-shadow: 0 2px 8px rgba(0,0,0,0.04);
         margin-bottom: 20px;
         border-top: 4px solid #1e3a8a;
-        border-bottom: none;
     }
     /* Footer with Bottom Blue Border */
     .footer-box {
@@ -36,7 +35,6 @@ st.markdown("""
         padding: 15px;
         border-radius: 8px;
         border-bottom: 4px solid #1e3a8a;
-        border-top: none;
         box-shadow: 0 2px 8px rgba(0,0,0,0.02);
         margin-top: 30px;
         font-size: 11px;
@@ -281,7 +279,7 @@ def main():
                             except Exception as update_err:
                                 st.error(f"Failed to update: {update_err}")
 
-    # Footer with Bottom Blue Border
+    # Footer with Bottom Blue Border (Fixed `unsafe_allow_html`)
     st.markdown("""
         <div class="footer-box">
             📍 <b>MM PRINTS</b> | Ground Floor, No.80/1A, S.K. Road, Krishnapuram, Ambur, Tirupathur, Tamil Nadu - 635802<br>
@@ -289,7 +287,7 @@ def main():
             <hr style="margin: 8px 0; border-top: 1px solid #cbd5e1;">
             Internal Management Portal &copy; 2026 | Prop: Lawrance Madhankumar
         </div>
-    """, unsafe_output_html=True)
+    """, unsafe_allow_html=True)
 
 if __name__ == "__main__":
     main()

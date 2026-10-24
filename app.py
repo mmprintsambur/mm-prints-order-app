@@ -21,7 +21,7 @@ def get_base64_image(image_path):
 
 logo_base64 = get_base64_image("logo.png")
 
-# Perfected CSS aligning both header and footer boxes identically
+# Bulletproof CSS with exact matching top and bottom solid bars
 st.markdown("""
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#1e3a8a">
@@ -35,16 +35,20 @@ st.markdown("""
     }
     .custom-header-box {
         background-color: #ffffff;
-        padding: 15px;
         border-radius: 8px;
         text-align: center;
         box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-        margin-top: 5px;
         margin-bottom: 25px;
-        border-top: 10px solid #1e3a8a !important;
-        border-left: 1px solid #e2e8f0;
-        border-right: 1px solid #e2e8f0;
-        border-bottom: 1px solid #e2e8f0;
+        border: 1px solid #e2e8f0;
+        overflow: hidden;
+    }
+    .header-top-bar {
+        background-color: #1e3a8a;
+        height: 10px;
+        width: 100%;
+    }
+    .header-content {
+        padding: 15px;
     }
     .footer-box {
         background-color: #ffffff;
@@ -119,16 +123,23 @@ def format_phone_number(phone):
     return cleaned
 
 def main():
+    # Top Header Box using absolute HTML layout to guarantee top blue bar
     if logo_base64:
         st.markdown(f"""
             <div class="custom-header-box">
-                <img src="data:image/png;base64,{logo_base64}" style="max-width: 55%; height: auto; display: block; margin: 0 auto;" />
+                <div class="header-top-bar"></div>
+                <div class="header-content">
+                    <img src="data:image/png;base64,{logo_base64}" style="max-width: 55%; height: auto; display: block; margin: 0 auto;" />
+                </div>
             </div>
         """, unsafe_allow_html=True)
     else:
         st.markdown("""
             <div class="custom-header-box">
-                <h3 style='color:#1e3a8a; margin: 0;'>MM PRINTS</h3>
+                <div class="header-top-bar"></div>
+                <div class="header-content">
+                    <h3 style='color:#1e3a8a; margin: 0;'>MM PRINTS</h3>
+                </div>
             </div>
         """, unsafe_allow_html=True)
 

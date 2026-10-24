@@ -11,19 +11,19 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Custom CSS for Solid Dark Blue Header and Footer
+# Custom CSS for Pure Solid Dark Blue Top and Bottom Bars
 st.markdown("""
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#1e3a8a">
     <style>
     .block-container {
-        padding-top: 1.2rem !important;
+        padding-top: 1rem !important;
         padding-bottom: 2rem !important;
     }
     .main {
         background-color: #f8fafc;
     }
-    .corporate-header-box {
+    .custom-header-box {
         background-color: #ffffff;
         padding: 15px;
         border-radius: 8px;
@@ -108,17 +108,12 @@ def format_phone_number(phone):
     return cleaned
 
 def main():
-    # Top Header Box with Solid Dark Blue Top Border
-    st.markdown('<div class="corporate-header-box">', unsafe_allow_html=True)
-    
-    col_l, col_c, col_r = st.columns([1, 2, 1])
-    with col_c:
-        try:
-            st.image("logo.png", use_column_width=True)
-        except Exception:
-            st.markdown("<h3 style='color:#1e3a8a; text-align:center;'>MM PRINTS</h3>", unsafe_allow_html=True)
-            
-    st.markdown('</div>', unsafe_allow_html=True)
+    # Top Header Box with Pure Solid Dark Blue Top Border
+    st.markdown("""
+        <div class="custom-header-box">
+            <img src="logo.png" style="max-width: 60%; height: auto; display: block; margin: 0 auto;" />
+        </div>
+    """, unsafe_allow_html=True)
 
     # Connect to Google Sheet
     try:

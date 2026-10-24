@@ -1,8 +1,8 @@
-import json
 import streamlit as st
 import gspread
 from google.oauth2.service_account import Credentials
 
+# Page Configuration
 st.set_page_config(
     page_title="MM Prints - Order Entry",
     page_icon="🖨️",
@@ -15,15 +15,13 @@ def get_gsheet_client():
         "https://www.googleapis.com/auth/drive"
     ]
     
-    raw_key = st.secrets["GOOGLE_JSON_KEY"]
-    if isinstance(raw_key, str):
-        creds_dict = json.loads(raw_key, strict=False)
-    else:
-        creds_dict = dict(raw_key)
+    # Streamlit Secrets-லிருந்து நேரடியாக GCP Credentials Dict பெறுகிறோம்
+    creds_dict = dict(st.secrets["gcp_service_account"])
     
+    # \n வரிகளை கச்சிதமாக Handle செய்கிறோம்
     if "private_key" in creds_dict:
-        pk = creds_dict["private_key"]
-        pk = pk.replace("\\\\n", "\n").replace("\\n", "\n")
+        pk = str(creds_dict["private_key"])
+        pk = pk.replace("\\n", "\n")
         creds_dict["private_key"] = pk
 
     creds = Credentials.from_service_account_info(creds_dict, scopes=scopes)
@@ -33,6 +31,7 @@ def main():
     st.title("🖨️ MM Prints - New Order Booking")
     st.caption("Ambur | Staff Data Entry Portal")
 
+    # Connect to Google Sheet
     try:
         gc = get_gsheet_client()
         spreadsheet_id = st.secrets["SPREADSHEET_ID"]
@@ -42,6 +41,7 @@ def main():
         st.error(f"Error connecting to Google Sheets: {e}")
         st.stop()
 
+    # Order Entry Form
     with st.form("order_form", clear_on_submit=True):
         st.subheader("Order Details")
         
@@ -68,6 +68,7 @@ def main():
                 st.warning("Please fill in Customer Name and Phone Number.")
             else:
                 try:
+                    # Append new row to Google Sheet
                     new_row = [
                         order_id,
                         customer_name,

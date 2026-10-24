@@ -105,13 +105,12 @@ def main():
     # Corporate Header Banner
     st.markdown('<div class="corporate-header">', unsafe_allow_html=True)
     
-    # Display Local Logo from GitHub Repository (`logo.jpg`)
+    # Display Local Logo from GitHub Repository (`logo.png`)
     col_l, col_c, col_r = st.columns([1, 1.2, 1])
     with col_c:
         try:
-            st.image("logo.jpg", use_column_width=True)
+            st.image("logo.png", use_column_width=True)
         except Exception:
-            # Fallback if logo.jpg is not yet uploaded
             st.markdown("<h2 style='color:#ffd700; text-align:center;'>MM PRINTS</h2>", unsafe_allow_html=True)
 
     st.markdown("""
@@ -293,7 +292,7 @@ def main():
                             except Exception as update_err:
                                 st.error(f"Failed to update: {update_err}")
 
-    # Corporate Footer with Address, GST & All 3 Phone Numbers
+    # Corporate Footer with Address, GST & Phone Numbers
     st.markdown("""
         <div class="footer-box">
             📍 <b>MM PRINTS</b> | Ground Floor, No.80/1A, S.K. Road, Krishnapuram, Ambur, Tirupathur, Tamil Nadu - 635802<br>

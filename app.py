@@ -108,15 +108,19 @@ def format_phone_number(phone):
     return cleaned
 
 def main():
-    # Header Section with Box & Top Dark Blue Border
-    st.markdown('<div class="corporate-header">', unsafe_allow_html=True)
+    # Header Section with Inline Guaranteed Dark Blue Top Border Box
+    st.markdown("""
+        <div style="background-color: #ffffff; padding: 15px; border-radius: 8px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.04); margin-bottom: 25px; border-top: 6px solid #1e3a8a; border-left: 1px solid #e2e8f0; border-right: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0;">
+    """, unsafe_allow_html=True)
+    
     col_l, col_c, col_r = st.columns([1, 2, 1])
     with col_c:
         try:
             st.image("logo.png", use_column_width=True)
         except Exception:
             st.markdown("<h3 style='color:#1e3a8a; text-align:center;'>MM PRINTS</h3>", unsafe_allow_html=True)
-    st.markdown('</div>', unsafe_allow_html=True)
+            
+    st.markdown("</div>", unsafe_allow_html=True)
 
     # Connect to Google Sheet
     try:

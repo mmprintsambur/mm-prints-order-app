@@ -1,0 +1,15 @@
+{
+  "short_name": "MM Prints",
+  "name": "MM Prints Order Management",
+  "icons": [
+    {
+      "src": "logo.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": "/",
+  "background_color": "#f8fafc",
+  "theme_color": "#1e3a8a",
+  "display": "standalone"
+}

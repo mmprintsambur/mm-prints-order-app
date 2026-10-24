@@ -4,7 +4,6 @@ import streamlit as st
 import gspread
 from google.oauth2.service_account import Credentials
 
-# Set page title and official MM Prints logo as favicon/icon
 st.set_page_config(
     page_title="MM Prints - Management Portal",
     page_icon="logo.png",
@@ -12,8 +11,10 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Custom CSS for Full Page Box Border Effect
+# Custom CSS with PWA manifest link and Full Page Box Border Effect
 st.markdown("""
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#1e3a8a">
     <style>
     .block-container {
         padding-top: 1.2rem !important;
@@ -339,7 +340,6 @@ def main():
             """, unsafe_allow_html=True)
             
             if st.button("❌ Close / Clear"):
-                st.session_state.update_name = False
                 st.session_state.update_success = False
                 st.rerun()
 

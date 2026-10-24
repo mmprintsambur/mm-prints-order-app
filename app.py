@@ -3,15 +3,14 @@ import streamlit as st
 import gspread
 from google.oauth2.service_account import Credentials
 
-# Page Configuration
+# Page Configuration (Printer icon removed)
 st.set_page_config(
     page_title="MM Prints - Management Portal",
-    page_icon="🖨️",
     layout="centered",
     initial_sidebar_state="expanded"
 )
 
-# Custom CSS for Professional Corporate Branding & Layout
+# Custom CSS for Professional Corporate Branding
 st.markdown("""
     <style>
     .main {
@@ -19,7 +18,7 @@ st.markdown("""
     }
     .corporate-header {
         background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
-        padding: 25px;
+        padding: 30px 20px;
         border-radius: 15px;
         color: white;
         text-align: center;
@@ -27,18 +26,30 @@ st.markdown("""
         margin-bottom: 25px;
         border-bottom: 4px solid #ffd700;
     }
-    .logo-img {
-        width: 100px;
-        height: 100px;
+    .logo-container {
+        background-color: #ffffff;
+        padding: 12px;
         border-radius: 50%;
-        object-fit: cover;
+        width: 110px;
+        height: 110px;
+        margin: 0 auto 15px auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.3);
         border: 3px solid #ffd700;
-        margin-bottom: 10px;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    }
+    .logo-text {
+        font-size: 24px;
+        font-weight: 900;
+        background: linear-gradient(135deg, #d4af37 0%, #ff8c00 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        line-height: 1.1;
     }
     .corporate-header h1 {
         color: #ffffff !important;
-        font-size: 26px;
+        font-size: 28px;
         margin: 5px 0;
         font-weight: 700;
         letter-spacing: 1px;
@@ -47,28 +58,19 @@ st.markdown("""
         color: #ffd700;
         font-size: 13px;
         font-style: italic;
-        margin-bottom: 8px;
-    }
-    .address-box {
-        color: #e0e0e0;
-        font-size: 12px;
-        line-height: 1.4;
-        background: rgba(255, 255, 255, 0.08);
-        padding: 8px 12px;
-        border-radius: 8px;
-        display: inline-block;
-        margin-top: 5px;
+        letter-spacing: 0.5px;
     }
     .footer-box {
         background-color: #ffffff;
-        padding: 15px;
-        border-radius: 8px;
-        border-left: 4px solid #2c5364;
-        box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-        margin-top: 30px;
+        padding: 20px;
+        border-radius: 10px;
+        border-top: 4px solid #2c5364;
+        box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
+        margin-top: 40px;
         font-size: 12px;
-        color: #6c757d;
+        color: #495057;
         text-align: center;
+        line-height: 1.6;
     }
     .stButton>button {
         border-radius: 8px;
@@ -122,16 +124,14 @@ def generate_order_id(sheet):
         return f"{prefix}001"
 
 def main():
-    # Corporate Header with Official Logo & GST Address
+    # Corporate Header with Styled Logo & Tagline
     st.markdown("""
         <div class="corporate-header">
-            <img src="https://i.ibb.co/3ykS5s4/mm-prints-logo.jpg" class="logo-img" alt="MM Prints Logo">
+            <div class="logo-container">
+                <div class="logo-text">MM<br>PRINTS</div>
+            </div>
             <h1>MM PRINTS</h1>
             <div class="tagline">"YOUR IMAGINATION — OUR CREATION"</div>
-            <div class="address-box">
-                📍 <b>Ground Floor, No.80/1A, S.K. Road, Krishnapuram, Ambur, Tirupathur, Tamil Nadu - 635802</b><br>
-                🔖 <b>GSTIN:</b> 33BFXPL1178K1ZV | 🖨️ Commercial Printing & Signage Solutions
-            </div>
         </div>
     """, unsafe_allow_html=True)
 
@@ -144,7 +144,6 @@ def main():
         st.error(f"Error connecting to Google Sheets: {e}")
         st.stop()
 
-    # Initialize Session State for Navigation
     if "page" not in st.session_state:
         st.session_state.page = "home"
 
@@ -309,10 +308,13 @@ def main():
                             except Exception as update_err:
                                 st.error(f"Failed to update: {update_err}")
 
-    # Corporate Footer
+    # Corporate Footer with Address & GST Details at the Bottom
     st.markdown("""
         <div class="footer-box">
-            <b>MM Prints Internal Operations & Management Portal</b> &copy; 2026 | Prop: Lawrance Madhankumar | Ambur, TN
+            📍 <b>MM PRINTS</b> | Ground Floor, No.80/1A, S.K. Road, Krishnapuram, Ambur, Tirupathur, Tamil Nadu - 635802<br>
+            🔖 <b>GSTIN:</b> 33BFXPL1178K1ZV | 📞 Commercial Printing & Signage Solutions<br>
+            <hr style="margin: 10px 0; border-top: 1px solid #dee2e6;">
+            Internal Management Portal &copy; 2026 | Prop: Lawrance Madhankumar
         </div>
     """, unsafe_allow_html=True)
 

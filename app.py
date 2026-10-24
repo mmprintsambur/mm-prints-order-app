@@ -16,16 +16,20 @@ def get_gsheet_client():
         "https://www.googleapis.com/auth/drive"
     ]
     
-    # st.secrets-ல் [gcp_service_account] செக்ஷனில் உள்ளவற்றை எடுப்பது
-    creds_dict = dict(st.secrets["gcp_service_account"])
+    # st.secrets-லிருந்து JSON string-ஐ எடுத்து டிக்ஷனரியாக மாற்றுதல்
+    raw_key = st.secrets["GOOGLE_JSON_KEY"]
     
-    # Private Key-ல் உள்ள எஸ்கேப் செய்யப்பட்ட \\n-களை உண்மையான புதிய வரிகளாக (\n) மாற்றுதல்
+    if isinstance(raw_key, str):
+        creds_dict = json.loads(raw_key, strict=False)
+    else:
+        creds_dict = dict(raw_key)
+    
+    # Private key-ல் உள்ள \\n-களை உண்மையான newline (\n) ஆக மாற்றுதல்
     if "private_key" in creds_dict:
-        pk = str(creds_dict["private_key"])
-        # Backslash clean-up
+        pk = creds_dict["private_key"]
         pk = pk.replace("\\\\n", "\n").replace("\\n", "\n")
         creds_dict["private_key"] = pk
-
+        
     creds = Credentials.from_service_account_info(creds_dict, scopes=scopes)
     return gspread.authorize(creds)
 

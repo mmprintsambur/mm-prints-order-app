@@ -1,4 +1,5 @@
 import json
+import tempfile
 import streamlit as st
 import gspread
 from google.oauth2.service_account import Credentials
@@ -16,21 +17,21 @@ def get_gsheet_client():
         "https://www.googleapis.com/auth/drive"
     ]
     
-    # st.secrets-லிருந்து JSON string-ஐ எடுத்து டிக்ஷனரியாக மாற்றுதல்
+    # Secrets-லிருந்து JSON string-ஐ எடுக்கிறோம்
     raw_key = st.secrets["GOOGLE_JSON_KEY"]
     
-    if isinstance(raw_key, str):
-        creds_dict = json.loads(raw_key, strict=False)
+    if isinstance(raw_key, dict):
+        json_str = json.dumps(raw_key)
     else:
-        creds_dict = dict(raw_key)
+        json_str = str(raw_key)
     
-    # Private key-ல் உள்ள \\n அல்லது \n-களை சரியாக கையாளுதல்
-    if "private_key" in creds_dict:
-        pk = creds_dict["private_key"]
-        pk = pk.replace("\\\\n", "\n").replace("\\n", "\n")
-        creds_dict["private_key"] = pk
+    # தற்காலிகமாக ஒரு JSON ஃபைலை உருவாக்கி அதில் எழுதுகிறோம் (PEM format error-க்கு இதுதான் பெஸ்ட் தீர்வு)
+    with tempfile.NamedTemporaryFile(mode="w", delete=False, suffix=".json") as tf:
+        tf.write(json_str)
+        temp_file_path = tf.name
         
-    creds = Credentials.from_service_account_info(creds_dict, scopes=scopes)
+    # Google-ன் அதிகாரப்பூர்வ முறையைப் பயன்படுத்தி ஃபைலில் இருந்து நேரடியாக Credential எடுக்கிறோம்
+    creds = Credentials.from_service_account_file(temp_file_path, scopes=scopes)
     return gspread.authorize(creds)
 
 def main():

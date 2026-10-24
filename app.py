@@ -16,9 +16,9 @@ def get_gsheet_client():
         "https://www.googleapis.com/auth/drive"
     ]
     
-    # st.secrets-லிருந்து JSON string-ஐ எடுத்து டிக்ஷனரியாக மாற்றுதல்
     raw_key = st.secrets["GOOGLE_JSON_KEY"]
     
+    # st.secrets-லிருந்து வரும் key ஸ்ட்ரிங்காக இருந்தால் அதை டிக்ஷனரியாக மாற்றுதல்
     if isinstance(raw_key, str):
         creds_dict = json.loads(raw_key, strict=False)
     else:

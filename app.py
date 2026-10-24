@@ -1,4 +1,5 @@
 from datetime import datetime
+import urllib.parse
 import streamlit as st
 import gspread
 from google.oauth2.service_account import Credentials
@@ -19,7 +20,6 @@ st.markdown("""
     .main {
         background-color: #f8fafc;
     }
-    /* Header with Top Blue Border */
     .corporate-header {
         background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
         padding: 15px;
@@ -29,7 +29,6 @@ st.markdown("""
         margin-bottom: 20px;
         border-top: 4px solid #1e3a8a;
     }
-    /* Footer with Bottom Blue Border */
     .footer-box {
         background-color: #f8fafc;
         padding: 15px;
@@ -92,6 +91,13 @@ def generate_order_id(sheet):
         return f"{prefix}{seq_num:03d}"
     except Exception:
         return f"{prefix}001"
+
+def format_phone_number(phone):
+    # Clean phone number for WhatsApp (Ensure country code +91 for India)
+    cleaned = ''.join(filter(str.isdigit, str(phone)))
+    if len(cleaned) == 10:
+        return f"91{cleaned}"
+    return cleaned
 
 def main():
     # Header Section
@@ -250,7 +256,12 @@ def main():
                         break
                 
                 if selected_row_data:
-                    st.info(f"**Customer Name:** {selected_row_data.get('Customer Name')} | **Job Type:** {selected_row_data.get('Job Type')}")
+                    cust_name = selected_row_data.get('Customer Name')
+                    cust_phone = selected_row_data.get('Phone / Contact')
+                    job_t = selected_row_data.get('Job Type')
+                    bal_due = selected_row_data.get('Balance Due', 0)
+                    
+                    st.info(f"**Customer:** {cust_name} | **Job:** {job_t} | **Balance Due:** ₹{bal_due}")
                     
                     current_status = selected_row_data.get('Order Status', 'New Order')
                     
@@ -275,11 +286,50 @@ def main():
                             try:
                                 sheet.update_cell(row_index, 12, new_status)
                                 sheet.update_cell(row_index, 13, updated_remarks)
-                                st.success(f"Order {selected_order_id} status updated to '{new_status}' successfully!")
+                                
+                                # Store data in session state to display WhatsApp button instantly
+                                st.session_state.update_success = True
+                                st.session_state.updated_order_id = selected_order_id
+                                st.session_state.cust_name = cust_name
+                                st.session_state.cust_phone = cust_phone
+                                st.session_state.new_status = new_status
+                                st.session_state.bal_due = bal_due
+                                st.rerun()
                             except Exception as update_err:
                                 st.error(f"Failed to update: {update_err}")
 
-    # Footer with Bottom Blue Border (Fixed `unsafe_allow_html`)
+        # Show WhatsApp Button if status was just successfully updated
+        if st.session_state.get("update_success"):
+            st.success(f"Order {st.session_state.updated_order_id} status updated to '{st.session_state.new_status}' successfully!")
+            
+            # Prepare WhatsApp Message Template
+            wa_phone = format_phone_number(st.session_state.cust_phone)
+            wa_message = (
+                f"Hello {st.session_state.cust_name},\n\n"
+                f"Your order (*ID: {st.session_state.updated_order_id}*) with *MM PRINTS* status has been updated to: *{st.session_state.new_status}*.\n"
+            )
+            if float(st.session_state.bal_due or 0) > 0:
+                wa_message += f"Balance Due: ₹{st.session_state.bal_due}\n\n"
+            wa_message += "Thank you for choosing MM Prints! 🖨️\n📍 Ambur"
+            
+            encoded_msg = urllib.parse.quote(wa_message)
+            wa_link = f"https://wa.me/{wa_phone}?text={encoded_msg}"
+            
+            st.markdown(f"""
+                <div style="text-align: center; margin-top: 15px; margin-bottom: 15px;">
+                    <a href="{wa_link}" target="_blank">
+                        <button style="background-color: #25d366; color: white; padding: 12px 24px; border: none; border-radius: 8px; font-weight: bold; font-size: 16px; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+                            💬 Send WhatsApp Update to Customer
+                        </button>
+                    </a>
+                </div>
+            """, unsafe_allow_html=True)
+            
+            if st.button("❌ Close / Clear"):
+                st.session_state.update_success = False
+                st.rerun()
+
+    # Footer with Bottom Blue Border
     st.markdown("""
         <div class="footer-box">
             📍 <b>MM PRINTS</b> | Ground Floor, No.80/1A, S.K. Road, Krishnapuram, Ambur, Tirupathur, Tamil Nadu - 635802<br>

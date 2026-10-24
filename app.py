@@ -331,4 +331,11 @@ def main():
     st.markdown("""
         <div class="footer-box">
             📍 <b>MM PRINTS</b> | Ground Floor, No.80/1A, S.K. Road, Krishnapuram, Ambur, Tirupathur, Tamil Nadu - 635802<br>
-            🔖 <b>GSTIN:</b> 33BFXPL1178K1ZV | 📞 <b>Contact:</b> +91
+            🔖 <b>GSTIN:</b> 33BFXPL1178K1ZV | 📞 <b>Contact:</b> +91 9933360360 | +91 7010660360 | +91 9025660360<br>
+            <hr style="margin: 8px 0; border-top: 1px solid #cbd5e1;">
+            Internal Management Portal &copy; 2026 | Prop: Lawrance Madhankumar
+        </div>
+    """, unsafe_allow_html=True)
+
+if __name__ == "__main__":
+    main()

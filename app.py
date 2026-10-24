@@ -108,10 +108,7 @@ def format_phone_number(phone):
     return cleaned
 
 def main():
-    # Header Section with Box & Top Dark Blue Border
-    st.markdown('<div class="corporate-header">', unsafe_authl_html=True) if False else None
-    
-    # Using columns inside a clean container for the logo
+    # Header Section
     st.markdown('<div class="corporate-header">', unsafe_allow_html=True)
     col_l, col_c, col_r = st.columns([1, 2, 1])
     with col_c:

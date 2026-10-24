@@ -1,3 +1,4 @@
+import json
 import streamlit as st
 import gspread
 from google.oauth2.service_account import Credentials
@@ -15,20 +16,20 @@ def get_gsheet_client():
         "https://www.googleapis.com/auth/drive"
     ]
     
-    # st.secrets-ilirundhu thanithani fields-a dictionary-a edukkurom
-    creds_dict = {
-        "type": st.secrets["type"],
-        "project_id": st.secrets["project_id"],
-        "private_key_id": st.secrets["private_key_id"],
-        "private_key": st.secrets["private_key"],
-        "client_email": st.secrets["client_email"],
-        "client_id": st.secrets["client_id"],
-        "auth_uri": st.secrets["auth_uri"],
-        "token_uri": st.secrets["token_uri"],
-        "auth_provider_x509_cert_url": st.secrets["auth_provider_x509_cert_url"],
-        "client_x509_cert_url": st.secrets["client_x509_cert_url"],
-        "universe_domain": st.secrets["universe_domain"]
-    }
+    raw_key = st.secrets["GOOGLE_JSON_KEY"]
+    
+    # st.secrets-லிருந்து வரும் key-ஐப் பொறுத்து dict-ஆக மாற்றுதல்
+    if isinstance(raw_key, str):
+        creds_dict = json.loads(raw_key, strict=False)
+    else:
+        creds_dict = dict(raw_key)
+    
+    # Private Key PEM format-ல் உள்ள \\n-களை உண்மையான newline (\n) ஆக மாற்றுதல்
+    if "private_key" in creds_dict:
+        pk = creds_dict["private_key"]
+        # double escape அல்லது single escape ஆனாலும் கச்சிதமாக சரி செய்யும்
+        pk = pk.replace("\\\\n", "\n").replace("\\n", "\n")
+        creds_dict["private_key"] = pk
         
     creds = Credentials.from_service_account_info(creds_dict, scopes=scopes)
     return gspread.authorize(creds)

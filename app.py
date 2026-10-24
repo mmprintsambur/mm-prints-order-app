@@ -9,59 +9,67 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Custom CSS for Professional Corporate Branding
+# Custom CSS for Minimal Top Space, Slim Header & Mild Light Theme matching Logo
 st.markdown("""
     <style>
-    .main {
-        background-color: #f4f6f9;
+    /* Reduce top padding & whitespace */
+    .block-container {
+        padding-top: 1.5rem !important;
+        padding-bottom: 2rem !important;
     }
+    .main {
+        background-color: #fcfcfd;
+    }
+    /* Slim and elegant light corporate header */
     .corporate-header {
-        background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
-        padding: 30px 20px;
-        border-radius: 15px;
-        color: white;
+        background: linear-gradient(135deg, #f0f4f8 0%, #e2e8f0 100%);
+        padding: 15px 15px;
+        border-radius: 10px;
+        color: #1e293b;
         text-align: center;
-        box-shadow: 0 6px 20px rgba(0,0,0,0.15);
-        margin-bottom: 25px;
-        border-bottom: 4px solid #ffd700;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+        margin-bottom: 20px;
+        border-bottom: 3px solid #f59e0b;
+        border-top: 1px solid #cbd5e1;
     }
     .corporate-header h1 {
-        color: #ffffff !important;
-        font-size: 28px;
-        margin: 10px 0 5px 0;
+        color: #0f172a !important;
+        font-size: 24px;
+        margin: 5px 0 2px 0;
         font-weight: 700;
-        letter-spacing: 1px;
+        letter-spacing: 0.5px;
     }
     .tagline {
-        color: #ffd700;
-        font-size: 13px;
+        color: #d97706;
+        font-size: 12px;
+        font-weight: 600;
         font-style: italic;
         letter-spacing: 0.5px;
     }
     .footer-box {
-        background-color: #ffffff;
-        padding: 20px;
-        border-radius: 10px;
-        border-top: 4px solid #2c5364;
-        box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
-        margin-top: 40px;
-        font-size: 12px;
-        color: #495057;
+        background-color: #f8fafc;
+        padding: 15px;
+        border-radius: 8px;
+        border-top: 3px solid #0284c7;
+        box-shadow: 0 -2px 8px rgba(0,0,0,0.02);
+        margin-top: 30px;
+        font-size: 11px;
+        color: #475569;
         text-align: center;
-        line-height: 1.6;
+        line-height: 1.5;
     }
     .stButton>button {
-        border-radius: 8px;
+        border-radius: 6px;
         font-weight: 600;
-        height: 3.2em;
+        height: 3em;
         width: 100%;
-        background-color: #2c5364;
+        background-color: #0f172a;
         color: white;
+        border: none;
     }
     .stButton>button:hover {
-        background-color: #203a43;
-        border-color: #ffd700;
-        color: #ffd700;
+        background-color: #1e293b;
+        color: #f59e0b;
     }
     </style>
 """, unsafe_allow_html=True)
@@ -102,16 +110,15 @@ def generate_order_id(sheet):
         return f"{prefix}001"
 
 def main():
-    # Corporate Header Banner
+    # Compact Slim Corporate Header with Logo & Tagline
     st.markdown('<div class="corporate-header">', unsafe_allow_html=True)
     
-    # Display Local Logo from GitHub Repository (`logo.png`)
     col_l, col_c, col_r = st.columns([1, 1.2, 1])
     with col_c:
         try:
             st.image("logo.png", use_column_width=True)
         except Exception:
-            st.markdown("<h2 style='color:#ffd700; text-align:center;'>MM PRINTS</h2>", unsafe_allow_html=True)
+            st.markdown("<h3 style='color:#0f172a; text-align:center;'>MM PRINTS</h3>", unsafe_allow_html=True)
 
     st.markdown("""
         <h1>MM PRINTS</h1>
@@ -133,7 +140,7 @@ def main():
 
     # ================= HOME PAGE =================
     if st.session_state.page == "home":
-        st.markdown("<h3 style='text-align: center; color: #2c5364; margin-bottom: 20px;'>Select Operation Mode</h3>", unsafe_allow_html=True)
+        st.markdown("<h4 style='text-align: center; color: #334155; margin-bottom: 15px;'>Select Operation Mode</h4>", unsafe_allow_html=True)
         
         col1, col2 = st.columns(2, gap="medium")
         with col1:
@@ -292,12 +299,12 @@ def main():
                             except Exception as update_err:
                                 st.error(f"Failed to update: {update_err}")
 
-    # Corporate Footer with Address, GST & Phone Numbers
+    # Elegant Minimal Footer
     st.markdown("""
         <div class="footer-box">
             📍 <b>MM PRINTS</b> | Ground Floor, No.80/1A, S.K. Road, Krishnapuram, Ambur, Tirupathur, Tamil Nadu - 635802<br>
             🔖 <b>GSTIN:</b> 33BFXPL1178K1ZV | 📞 <b>Contact:</b> +91 9933360360 | +91 7010660360 | +91 9025660360<br>
-            <hr style="margin: 10px 0; border-top: 1px solid #dee2e6;">
+            <hr style="margin: 8px 0; border-top: 1px solid #cbd5e1;">
             Internal Management Portal &copy; 2026 | Prop: Lawrance Madhankumar
         </div>
     """, unsafe_allow_html=True)

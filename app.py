@@ -1,3 +1,5 @@
+import json
+import base64
 import streamlit as st
 import gspread
 from google.oauth2.service_account import Credentials
@@ -15,14 +17,10 @@ def get_gsheet_client():
         "https://www.googleapis.com/auth/drive"
     ]
     
-    # Streamlit secrets-ல் [gcp_service_account] செக்ஷனில் உள்ளவற்றை அகராதியாக (dict) பெறுகிறோம்
-    creds_dict = dict(st.secrets["gcp_service_account"])
-    
-    # \n வரிகளை கச்சிதமாக கையாள்கிறோம்
-    if "private_key" in creds_dict:
-        pk = str(creds_dict["private_key"])
-        pk = pk.replace("\\n", "\n")
-        creds_dict["private_key"] = pk
+    # Secrets-ல் உள்ள Base64 String-ஐ எடுத்து Decode செய்து அசல் JSON ஆக்குகிறோம்
+    b64_str = st.secrets["GCP_BASE64"]
+    json_bytes = base64.b64decode(b64_str)
+    creds_dict = json.loads(json_bytes.decode("utf-8"))
 
     creds = Credentials.from_service_account_info(creds_dict, scopes=scopes)
     return gspread.authorize(creds)

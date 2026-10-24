@@ -3,11 +3,88 @@ import streamlit as st
 import gspread
 from google.oauth2.service_account import Credentials
 
+# Page Configuration
 st.set_page_config(
-    page_title="MM Prints - Order Portal",
+    page_title="MM Prints - Management Portal",
     page_icon="🖨️",
-    layout="centered"
+    layout="centered",
+    initial_sidebar_state="expanded"
 )
+
+# Custom CSS for Professional Corporate Branding & Layout
+st.markdown("""
+    <style>
+    .main {
+        background-color: #f4f6f9;
+    }
+    .corporate-header {
+        background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+        padding: 25px;
+        border-radius: 15px;
+        color: white;
+        text-align: center;
+        box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+        margin-bottom: 25px;
+        border-bottom: 4px solid #ffd700;
+    }
+    .logo-img {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 3px solid #ffd700;
+        margin-bottom: 10px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    }
+    .corporate-header h1 {
+        color: #ffffff !important;
+        font-size: 26px;
+        margin: 5px 0;
+        font-weight: 700;
+        letter-spacing: 1px;
+    }
+    .tagline {
+        color: #ffd700;
+        font-size: 13px;
+        font-style: italic;
+        margin-bottom: 8px;
+    }
+    .address-box {
+        color: #e0e0e0;
+        font-size: 12px;
+        line-height: 1.4;
+        background: rgba(255, 255, 255, 0.08);
+        padding: 8px 12px;
+        border-radius: 8px;
+        display: inline-block;
+        margin-top: 5px;
+    }
+    .footer-box {
+        background-color: #ffffff;
+        padding: 15px;
+        border-radius: 8px;
+        border-left: 4px solid #2c5364;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        margin-top: 30px;
+        font-size: 12px;
+        color: #6c757d;
+        text-align: center;
+    }
+    .stButton>button {
+        border-radius: 8px;
+        font-weight: 600;
+        height: 3.2em;
+        width: 100%;
+        background-color: #2c5364;
+        color: white;
+    }
+    .stButton>button:hover {
+        background-color: #203a43;
+        border-color: #ffd700;
+        color: #ffd700;
+    }
+    </style>
+""", unsafe_allow_html=True)
 
 def get_gsheet_client():
     scopes = [
@@ -45,8 +122,18 @@ def generate_order_id(sheet):
         return f"{prefix}001"
 
 def main():
-    st.title("🖨️ MM Prints - Order Management")
-    st.caption("Ambur | Staff Portal")
+    # Corporate Header with Official Logo & GST Address
+    st.markdown("""
+        <div class="corporate-header">
+            <img src="https://i.ibb.co/3ykS5s4/mm-prints-logo.jpg" class="logo-img" alt="MM Prints Logo">
+            <h1>MM PRINTS</h1>
+            <div class="tagline">"YOUR IMAGINATION — OUR CREATION"</div>
+            <div class="address-box">
+                📍 <b>Ground Floor, No.80/1A, S.K. Road, Krishnapuram, Ambur, Tirupathur, Tamil Nadu - 635802</b><br>
+                🔖 <b>GSTIN:</b> 33BFXPL1178K1ZV | 🖨️ Commercial Printing & Signage Solutions
+            </div>
+        </div>
+    """, unsafe_allow_html=True)
 
     # Connect to Google Sheet
     try:
@@ -61,12 +148,11 @@ def main():
     if "page" not in st.session_state:
         st.session_state.page = "home"
 
-    # ================= HOME PAGE (Buttons View) =================
+    # ================= HOME PAGE =================
     if st.session_state.page == "home":
-        st.markdown("---")
-        st.subheader("Please select an action:")
+        st.markdown("<h3 style='text-align: center; color: #2c5364; margin-bottom: 20px;'>Select Operation Mode</h3>", unsafe_allow_html=True)
         
-        col1, col2 = st.columns(2)
+        col1, col2 = st.columns(2, gap="medium")
         with col1:
             if st.button("➕ New Order Entry", use_container_width=True):
                 st.session_state.page = "new_order"
@@ -78,7 +164,7 @@ def main():
 
     # ================= NEW ORDER ENTRY PAGE =================
     elif st.session_state.page == "new_order":
-        if st.button("⬅️ Back to Home"):
+        if st.button("⬅️ Back to Home Menu"):
             st.session_state.page = "home"
             st.rerun()
 
@@ -87,14 +173,14 @@ def main():
         current_date = datetime.now().strftime("%Y-%m-%d")
 
         with st.form("order_form", clear_on_submit=True):
-            st.subheader("➕ New Order Booking")
+            st.subheader("📝 New Order Booking Form")
             
             col1, col2 = st.columns(2)
             with col1:
                 st.text_input("Order ID (Auto-generated)", value=next_order_id, disabled=True)
                 st.text_input("Order Date", value=current_date, disabled=True)
-                customer_name = st.text_input("Customer Name")
-                phone = st.text_input("Phone / Contact")
+                customer_name = st.text_input("Customer Name *")
+                phone = st.text_input("Phone / Contact Number *")
                 
                 job_type = st.selectbox(
                     "Job Type",
@@ -132,7 +218,7 @@ def main():
             
             remarks = st.text_area("Follow-up Remarks / Production Notes")
 
-            submitted = st.form_submit_button("🚀 Submit Order")
+            submitted = st.form_submit_button("🚀 Submit Order & Save")
 
             if submitted:
                 if not customer_name or not phone:
@@ -140,30 +226,30 @@ def main():
                 else:
                     try:
                         new_row = [
-                            next_order_id,          # A: Order ID
-                            current_date,           # B: Order Date
-                            customer_name,          # C: Customer Name
-                            phone,                  # D: Phone / Contact
-                            job_type,               # E: Job Type
-                            quantity_specs,         # F: Quantity & Specifications
-                            assigned_designer,      # G: Assigned Designer
-                            total_amount,           # H: Total Amount
-                            advance_paid,           # I: Advance Paid
-                            balance_due,            # J: Balance Due
-                            str(delivery_deadline), # K: Delivery Deadline
-                            order_status,           # L: Order Status
-                            remarks,                # M: Follow-up Remarks
-                            ""                      # N: Whatsapp Click
+                            next_order_id,          
+                            current_date,           
+                            customer_name,          
+                            phone,                  
+                            job_type,               
+                            quantity_specs,         
+                            assigned_designer,      
+                            total_amount,           
+                            advance_paid,           
+                            balance_due,            
+                            str(delivery_deadline), 
+                            order_status,           
+                            remarks,                
+                            ""                      
                         ]
                         sheet.append_row(new_row)
                         st.balloons()
-                        st.success(f"Order '{next_order_id}' submitted successfully!")
+                        st.success(f"Order '{next_order_id}' submitted successfully to Google Sheets!")
                     except Exception as err:
                         st.error(f"Failed to save order: {err}")
 
     # ================= UPDATE ORDER STATUS PAGE =================
     elif st.session_state.page == "update_order":
-        if st.button("⬅️ Back to Home"):
+        if st.button("⬅️ Back to Home Menu"):
             st.session_state.page = "home"
             st.rerun()
 
@@ -194,8 +280,7 @@ def main():
                         break
                 
                 if selected_row_data:
-                    st.write(f"**Customer Name:** {selected_row_data.get('Customer Name')}")
-                    st.write(f"**Job Type:** {selected_row_data.get('Job Type')}")
+                    st.info(f"**Customer Name:** {selected_row_data.get('Customer Name')} | **Job Type:** {selected_row_data.get('Job Type')}")
                     
                     current_status = selected_row_data.get('Order Status', 'New Order')
                     
@@ -223,6 +308,13 @@ def main():
                                 st.success(f"Order {selected_order_id} status updated to '{new_status}' successfully!")
                             except Exception as update_err:
                                 st.error(f"Failed to update: {update_err}")
+
+    # Corporate Footer
+    st.markdown("""
+        <div class="footer-box">
+            <b>MM Prints Internal Operations & Management Portal</b> &copy; 2026 | Prop: Lawrance Madhankumar | Ambur, TN
+        </div>
+    """, unsafe_allow_html=True)
 
 if __name__ == "__main__":
     main()

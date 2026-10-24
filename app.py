@@ -11,7 +11,7 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Custom CSS matching both top header and bottom footer with solid dark blue borders
+# Custom CSS with forceful dark blue borders for both top header and bottom footer
 st.markdown("""
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#1e3a8a">
@@ -24,31 +24,31 @@ st.markdown("""
         background-color: #f8fafc;
     }
     .corporate-header {
-        background-color: #ffffff;
-        padding: 15px;
-        border-radius: 8px;
-        text-align: center;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-        margin-bottom: 25px;
+        background-color: #ffffff !important;
+        padding: 15px !important;
+        border-radius: 8px !important;
+        text-align: center !important;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.04) !important;
+        margin-bottom: 25px !important;
         border-top: 6px solid #1e3a8a !important;
-        border-left: 1px solid #e2e8f0;
-        border-right: 1px solid #e2e8f0;
-        border-bottom: 1px solid #e2e8f0;
+        border-left: 1px solid #e2e8f0 !important;
+        border-right: 1px solid #e2e8f0 !important;
+        border-bottom: 1px solid #e2e8f0 !important;
     }
     .footer-box {
-        background-color: #ffffff;
-        padding: 15px;
-        border-radius: 8px;
+        background-color: #ffffff !important;
+        padding: 15px !important;
+        border-radius: 8px !important;
         border-bottom: 6px solid #1e3a8a !important;
-        border-left: 1px solid #e2e8f0;
-        border-right: 1px solid #e2e8f0;
-        border-top: 1px solid #e2e8f0;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-        margin-top: 30px;
-        font-size: 11px;
-        color: #475569;
-        text-align: center;
-        line-height: 1.5;
+        border-left: 1px solid #e2e8f0 !important;
+        border-right: 1px solid #e2e8f0 !important;
+        border-top: 1px solid #e2e8f0 !important;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.04) !important;
+        margin-top: 30px !important;
+        font-size: 11px !important;
+        color: #475569 !important;
+        text-align: center !important;
+        line-height: 1.5 !important;
     }
     .stButton>button {
         border-radius: 6px;
@@ -108,7 +108,7 @@ def format_phone_number(phone):
     return cleaned
 
 def main():
-    # Header Section
+    # Header Section with Box & Top Dark Blue Border
     st.markdown('<div class="corporate-header">', unsafe_allow_html=True)
     col_l, col_c, col_r = st.columns([1, 2, 1])
     with col_c:

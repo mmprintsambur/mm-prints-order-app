@@ -1,3 +1,6 @@
+[server]
+enableStaticServing = true
+
 [theme]
 primaryColor = "#1e3a8a"
 backgroundColor = "#f8fafc"

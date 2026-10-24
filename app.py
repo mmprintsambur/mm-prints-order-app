@@ -21,13 +21,13 @@ def get_base64_image(image_path):
 
 logo_base64 = get_base64_image("logo.png")
 
-# Bulletproof CSS neutralizing Streamlit top padding and aligning borders
+# Perfected CSS aligning both header and footer boxes identically
 st.markdown("""
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#1e3a8a">
     <style>
     .block-container {
-        padding-top: 0.5rem !important;
+        padding-top: 1.5rem !important;
         padding-bottom: 2rem !important;
     }
     .main {
@@ -39,7 +39,7 @@ st.markdown("""
         border-radius: 8px;
         text-align: center;
         box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-        margin-top: 0px;
+        margin-top: 5px;
         margin-bottom: 25px;
         border-top: 10px solid #1e3a8a !important;
         border-left: 1px solid #e2e8f0;

@@ -11,7 +11,7 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Custom CSS with exact matching dark blue borders for both top header and bottom footer
+# Custom CSS matching both top header and bottom footer with solid dark blue borders
 st.markdown("""
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#1e3a8a">
@@ -29,18 +29,20 @@ st.markdown("""
         border-radius: 8px;
         text-align: center;
         box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-        margin-bottom: 20px;
-        border-top: 4px solid #1e3a8a !important;
+        margin-bottom: 25px;
+        border-top: 6px solid #1e3a8a !important;
         border-left: 1px solid #e2e8f0;
         border-right: 1px solid #e2e8f0;
+        border-bottom: 1px solid #e2e8f0;
     }
     .footer-box {
         background-color: #ffffff;
         padding: 15px;
         border-radius: 8px;
-        border-bottom: 4px solid #1e3a8a !important;
+        border-bottom: 6px solid #1e3a8a !important;
         border-left: 1px solid #e2e8f0;
         border-right: 1px solid #e2e8f0;
+        border-top: 1px solid #e2e8f0;
         box-shadow: 0 2px 8px rgba(0,0,0,0.04);
         margin-top: 30px;
         font-size: 11px;
@@ -106,16 +108,17 @@ def format_phone_number(phone):
     return cleaned
 
 def main():
-    # Header Section
-    st.markdown('<div class="corporate-header">', unsafe_allow_html=True)
+    # Header Section with Box & Top Dark Blue Border
+    st.markdown('<div class="corporate-header">', unsafe_authl_html=True) if False else None
     
-    col_l, col_c, col_r = st.columns([1, 1.2, 1])
+    # Using columns inside a clean container for the logo
+    st.markdown('<div class="corporate-header">', unsafe_allow_html=True)
+    col_l, col_c, col_r = st.columns([1, 2, 1])
     with col_c:
         try:
             st.image("logo.png", use_column_width=True)
         except Exception:
             st.markdown("<h3 style='color:#1e3a8a; text-align:center;'>MM PRINTS</h3>", unsafe_allow_html=True)
-
     st.markdown('</div>', unsafe_allow_html=True)
 
     # Connect to Google Sheet
@@ -346,7 +349,7 @@ def main():
                 st.session_state.update_success = False
                 st.rerun()
 
-    # Footer with Bottom Blue Border
+    # Footer with Bottom Dark Blue Border
     st.markdown("""
         <div class="footer-box">
             📍 <b>MM PRINTS</b> | Ground Floor, No.80/1A, S.K. Road, Krishnapuram, Ambur, Tirupathur, Tamil Nadu - 635802<br>

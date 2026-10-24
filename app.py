@@ -93,7 +93,6 @@ def generate_order_id(sheet):
         return f"{prefix}001"
 
 def format_phone_number(phone):
-    # Clean phone number for WhatsApp (Ensure country code +91 for India)
     cleaned = ''.join(filter(str.isdigit, str(phone)))
     if len(cleaned) == 10:
         return f"91{cleaned}"
@@ -287,7 +286,6 @@ def main():
                                 sheet.update_cell(row_index, 12, new_status)
                                 sheet.update_cell(row_index, 13, updated_remarks)
                                 
-                                # Store data in session state to display WhatsApp button instantly
                                 st.session_state.update_success = True
                                 st.session_state.updated_order_id = selected_order_id
                                 st.session_state.cust_name = cust_name
@@ -302,15 +300,15 @@ def main():
         if st.session_state.get("update_success"):
             st.success(f"Order {st.session_state.updated_order_id} status updated to '{st.session_state.new_status}' successfully!")
             
-            # Prepare WhatsApp Message Template
+            # Updated WhatsApp Message Template (Single line for thank you and Ambur)
             wa_phone = format_phone_number(st.session_state.cust_phone)
             wa_message = (
                 f"Hello {st.session_state.cust_name},\n\n"
-                f"Your order (*ID: {st.session_state.updated_order_id}*) with *MM PRINTS* status has been updated to: *{st.session_state.new_status}*.\n"
+                f"Your order (ID: {st.session_state.updated_order_id}) with MM PRINTS status has been updated to: {st.session_state.new_status}.\n"
             )
             if float(st.session_state.bal_due or 0) > 0:
                 wa_message += f"Balance Due: ₹{st.session_state.bal_due}\n\n"
-            wa_message += "Thank you for choosing MM Prints! 🖨️\n📍 Ambur"
+            wa_message += "Thank you for choosing MM Prints - Ambur! 🖨️"
             
             encoded_msg = urllib.parse.quote(wa_message)
             wa_link = f"https://wa.me/{wa_phone}?text={encoded_msg}"
@@ -333,11 +331,4 @@ def main():
     st.markdown("""
         <div class="footer-box">
             📍 <b>MM PRINTS</b> | Ground Floor, No.80/1A, S.K. Road, Krishnapuram, Ambur, Tirupathur, Tamil Nadu - 635802<br>
-            🔖 <b>GSTIN:</b> 33BFXPL1178K1ZV | 📞 <b>Contact:</b> +91 9933360360 | +91 7010660360 | +91 9025660360<br>
-            <hr style="margin: 8px 0; border-top: 1px solid #cbd5e1;">
-            Internal Management Portal &copy; 2026 | Prop: Lawrance Madhankumar
-        </div>
-    """, unsafe_allow_html=True)
-
-if __name__ == "__main__":
-    main()
+            🔖 <b>GSTIN:</b> 33BFXPL1178K1ZV | 📞 <b>Contact:</b> +91

@@ -1,15 +1,16 @@
 {
+  "name": "MM Prints",
   "short_name": "MM Prints",
-  "name": "MM Prints Order Management",
   "icons": [
     {
-      "src": "logo.png",
+      "src": "https://raw.githubusercontent.com/mmprintsambur/mm-prints-order-app/main/logo.png",
+      "sizes": "192x192 512x512",
       "type": "image/png",
-      "sizes": "512x512"
+      "purpose": "any maskable"
     }
   ],
   "start_url": "/",
+  "display": "standalone",
   "background_color": "#f8fafc",
-  "theme_color": "#1e3a8a",
-  "display": "standalone"
+  "theme_color": "#1e3a8a"
 }

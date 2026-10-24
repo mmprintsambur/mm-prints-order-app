@@ -9,7 +9,7 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Custom CSS for Professional Corporate Branding & Pure CSS Logo Design
+# Custom CSS for Professional Corporate Branding
 st.markdown("""
     <style>
     .main {
@@ -17,7 +17,7 @@ st.markdown("""
     }
     .corporate-header {
         background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
-        padding: 35px 20px;
+        padding: 30px 20px;
         border-radius: 15px;
         color: white;
         text-align: center;
@@ -25,39 +25,10 @@ st.markdown("""
         margin-bottom: 25px;
         border-bottom: 4px solid #ffd700;
     }
-    .logo-badge {
-        background: radial-gradient(circle, #ffffff 60%, #f0f0f0 100%);
-        width: 120px;
-        height: 120px;
-        border-radius: 50%;
-        margin: 0 auto 15px auto;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        box-shadow: 0 4px 20px rgba(255, 215, 0, 0.4);
-        border: 4px solid #ffd700;
-    }
-    .logo-mm {
-        font-size: 28px;
-        font-weight: 900;
-        background: linear-gradient(135deg, #f5af19 0%, #f12711 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        line-height: 1;
-        letter-spacing: 1px;
-    }
-    .logo-prints {
-        font-size: 14px;
-        font-weight: 800;
-        color: #1e3c72;
-        letter-spacing: 2px;
-        margin-top: 2px;
-    }
     .corporate-header h1 {
         color: #ffffff !important;
         font-size: 28px;
-        margin: 5px 0;
+        margin: 10px 0 5px 0;
         font-weight: 700;
         letter-spacing: 1px;
     }
@@ -131,15 +102,21 @@ def generate_order_id(sheet):
         return f"{prefix}001"
 
 def main():
-    # Corporate Header with Pure CSS Emblem Logo & Tagline
+    # Corporate Header Banner
+    st.markdown('<div class="corporate-header">', unsafe_allow_html=True)
+    
+    # Display Local Logo from GitHub Repository (`logo.jpg`)
+    col_l, col_c, col_r = st.columns([1, 1.2, 1])
+    with col_c:
+        try:
+            st.image("logo.jpg", use_column_width=True)
+        except Exception:
+            # Fallback if logo.jpg is not yet uploaded
+            st.markdown("<h2 style='color:#ffd700; text-align:center;'>MM PRINTS</h2>", unsafe_allow_html=True)
+
     st.markdown("""
-        <div class="corporate-header">
-            <div class="logo-badge">
-                <div class="logo-mm">MM</div>
-                <div class="logo-prints">PRINTS</div>
-            </div>
-            <h1>MM PRINTS</h1>
-            <div class="tagline">"YOUR IMAGINATION — OUR CREATION"</div>
+        <h1>MM PRINTS</h1>
+        <div class="tagline">"YOUR IMAGINATION — OUR CREATION"</div>
         </div>
     """, unsafe_allow_html=True)
 
@@ -316,7 +293,7 @@ def main():
                             except Exception as update_err:
                                 st.error(f"Failed to update: {update_err}")
 
-    # Corporate Footer with Address, GST & Phone Numbers at the Bottom
+    # Corporate Footer with Address, GST & All 3 Phone Numbers
     st.markdown("""
         <div class="footer-box">
             📍 <b>MM PRINTS</b> | Ground Floor, No.80/1A, S.K. Road, Krishnapuram, Ambur, Tirupathur, Tamil Nadu - 635802<br>
